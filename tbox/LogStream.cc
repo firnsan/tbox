@@ -10,6 +10,11 @@ namespace tbox
 		template class FixedBuffer<kSmallBuffer>;
 	}
 
+	
+	LogStream &LogStream::operator<<(const string &str)
+	{
+		return operator<<(str.c_str());
+	}
 	LogStream &LogStream::operator<<(const char *str)
 	{
 		if (str) {

@@ -1,4 +1,8 @@
+#include <unistd.h>
+#include <sys/syscall.h>
+
 #include <assert.h>
+
 
 #include "Logger.h"
 
@@ -9,29 +13,52 @@ namespace tbox
 	
 	namespace detail
 	{
+		pid_t gettid()
+		{
+			return static_cast<pid_t>(::syscall(SYS_gettid));
+		}
+
+		class MainThreadInitializer
+		{
+		public:
+			MainThreadInitializer()
+			{
+				Thread::t_threadName = "main";
+				Thread::t_tid = gettid();
+			}
+		};
+		MainThreadInitializer mainThreadInit;
+
 		struct ThreadData
 		{
 			typedef Thread::ThreadFunc ThreadFunc;
 			ThreadFunc func_;
 			string name_;
+			weak_ptr<pid_t> tid_;
 
 			ThreadData(const ThreadFunc& func,
-					   const string& name)
+				const string& name,
+				const shared_ptr<pid_t>& tid)
 				: func_(func),
-				  name_(name)
+				  name_(name),
+				  tid_(tid)
 			{}
 		};
-	}
+	} //detail
 
 	__thread const char *Thread::t_threadName = "unkonw";
 	__thread int Thread::t_tid = 0;
-	AtomicInt32 numCreated;
+	AtomicInt32 Thread::numCreated_;
 
-	Thread::Thread(const ThreadFunc &func, const string &name)
+	Thread::Thread(const ThreadFunc &func, const string &str)
 		: func_(func),
-		  name_(name)
+		  name_(str),
+		  pthreadId_(0),
+		  tid_(new pid_t(0)),
+		  started_(false),
+		  joined_(false)
 	{
-		//TODO:设置numCretead和name_
+		setDefaultName();
 	}
 
 	Thread::~Thread()
@@ -44,10 +71,10 @@ namespace tbox
 	void Thread::start()
 	{
 		assert(!started_);
-		
 		started_ = true;
 		
-		detail::ThreadData *data = new detail::ThreadData(func_, name_);
+		detail::ThreadData *data = new detail::ThreadData(func_, name_, tid_);
+
 		if (pthread_create(&pthreadId_, NULL, &runInThread, data)) {
 			started_ = false;
 			delete data;
@@ -63,14 +90,36 @@ namespace tbox
 
 	void *Thread::runInThread(void *param)
 	{
+
 		detail::ThreadData *data = static_cast<detail::ThreadData*>(param);
-		
+
+		LOG_INFO << data->name_ << " started";
+		Thread::t_tid = detail::gettid();
 		Thread::t_threadName = data->name_.c_str(); 
+
+		auto ptid = data->tid_.lock();
+		if (ptid) {
+			*ptid = Thread::t_tid;
+			ptid.reset(); //降低引用计数减1，令其所指对象可以在Thread析构时释放
+		} else {
+			LOG_INFO << "tid is already be freed";
+		}
+
 
 		data->func_();
 		//started_ = false; TODO:无法设置成员变量started为false
 		delete data;
 
 		return NULL;
+	}
+
+	void Thread::setDefaultName()
+	{
+		int num = numCreated_.incrementAndGet();
+		if (name_.empty()) {
+			char temp[32];
+			snprintf(temp, 32, "Thread%d", num);
+			name_ = temp;
+		}
 	}
 }

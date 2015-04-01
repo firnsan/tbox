@@ -4,6 +4,7 @@
 
 #include "Logger.h"
 
+
 namespace tbox
 {
 	Logger::LogLevel initLogLevel()

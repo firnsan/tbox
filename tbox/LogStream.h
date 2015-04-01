@@ -3,6 +3,11 @@
 
 #include <string.h>
 
+#include <string>
+
+using std::string;
+
+
 namespace tbox
 {
 	namespace detail
@@ -51,6 +56,7 @@ namespace tbox
 
 		const Buffer &buffer() const {return buffer_;};
 
+		self& operator<<(const string &str);
 		self& operator<<(const char* str);
 		self& operator<<(int num);
 

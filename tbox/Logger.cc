@@ -17,6 +17,7 @@ namespace tbox
 	void defaultOutput(const char *msg, int len)
 	{
 		size_t n = fwrite(msg, len, 1, stdout);
+		(void)n; //skip -Werror=unused-variable
 	}
 
 	void defaultFlush()
@@ -30,9 +31,9 @@ namespace tbox
 	Logger::FlushFunc Logger::flush_ = defaultFlush;
 
 	Logger::Logger(const char *filename, int line)
-		: basename_(filename),
+		: stream_(),
+		  basename_(filename),
 		  line_(line),
-		  stream_(),
 		  level_(INFO)
 	{
 		//new(this) Logger(...);
@@ -44,9 +45,9 @@ namespace tbox
 
 
 	Logger::Logger(const char *filename, int line, LogLevel level)
-		: basename_(filename),
+		: stream_(),
+		  basename_(filename),
 		  line_(line),
-		  stream_(),
 		  level_(level)
 	{
 		const char *slash = strrchr(filename, '/');

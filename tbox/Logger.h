@@ -38,8 +38,8 @@ namespace tbox
 		void finish();
 
 		LogStream stream_;
-		int line_;
 		const char *basename_;
+		int line_;
 		LogLevel level_; //每次打log时的暂时level
 
 		static LogLevel globalLevel_; //全局level
@@ -49,5 +49,7 @@ namespace tbox
 
 #define LOG_INFO if (tbox::Logger::logLevel() <= tbox::Logger::INFO) \
 		tbox::Logger(__FILE__,  __LINE__).stream()
+#define LOG_FATAL if (tbox::Logger::logLevel() <= tbox::Logger::FATAL) \
+		tbox::Logger(__FILE__,  __LINE__, tbox::Logger::FATAL).stream()
 }
 #endif

@@ -29,11 +29,13 @@ namespace tbox
 
 		static int numCreated() { return numCreated_.get(); }
 		static pid_t currentTid() { return t_tid; }
+		static const char *currentTidStr() { return t_tidStr; }
 		static const char *currentName() { return t_threadName; }
 
 		//一下两static变量需要在MainThreadInitializer访问，所以是public
 		static __thread const char *t_threadName; //static在前面
 		static __thread int t_tid;
+		static __thread char t_tidStr[16];
 		
 	private:
 		void setDefaultName();

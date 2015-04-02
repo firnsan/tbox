@@ -36,6 +36,7 @@ namespace tbox
 
 	private:
 		void finish();
+		void extraInfo(); //输出时间、线程id
 
 		LogStream stream_;
 		const char *basename_;

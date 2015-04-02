@@ -2,6 +2,7 @@ set (tbox_SRCS
   Logger.cc
   LogStream.cc
   Thread.cc
+  TimeStamp.cc
   )
 
 add_library(tbox ${tbox_SRCS})

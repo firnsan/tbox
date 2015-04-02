@@ -48,6 +48,7 @@ namespace tbox
 
 	__thread const char *Thread::t_threadName = "unkonw";
 	__thread int Thread::t_tid = 0;
+	__thread char Thread::t_tidStr[16];
 	AtomicInt32 Thread::numCreated_;
 
 	Thread::Thread(const ThreadFunc &func, const string &str)
@@ -94,7 +95,11 @@ namespace tbox
 		detail::ThreadData *data = static_cast<detail::ThreadData*>(param);
 
 		LOG_INFO << data->name_ << " started";
+
+		//设置线程局部数据
 		Thread::t_tid = detail::gettid();
+		int n = snprintf(Thread::t_tidStr, sizeof(Thread::t_tidStr), "%5d ", Thread::t_tid);
+		assert(n==6);
 		Thread::t_threadName = data->name_.c_str(); 
 
 		auto ptid = data->tid_.lock();

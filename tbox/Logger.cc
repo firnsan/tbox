@@ -102,7 +102,7 @@ namespace tbox
 		//根据秒数，获取日期，精确到秒
 		struct tm dayAndTime;
 		char temp[128];
-		gmtime_r(&sec, &dayAndTime);
+		localtime_r(&sec, &dayAndTime);
 		snprintf(temp, sizeof(temp), "%4d%02d%02d %02d:%02d:%02d",
 			dayAndTime.tm_year+1900, dayAndTime.tm_mon+1,
 			dayAndTime.tm_mday, dayAndTime.tm_hour,

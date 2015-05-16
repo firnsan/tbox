@@ -9,23 +9,21 @@
 #include "Atomic.h"
 
 
-using namespace std;
-
 namespace tbox
 {
 
 	class Thread
 	{
 	public:
-		typedef function<void()> ThreadFunc;
-		Thread(const ThreadFunc &func, const string &name = string());
+		typedef std::function<void()> ThreadFunc;
+		Thread(const ThreadFunc &func, const std::string &name = std::string());
 		~Thread();
 		void start();
 		int join();
 
 		bool started() const { return started_; }
 		pid_t tid() const { return *tid_; }
-		const string& name() const { return name_; }
+		const std::string& name() const { return name_; }
 
 		static int numCreated() { return numCreated_.get(); }
 		static pid_t currentTid() { return t_tid; }
@@ -42,9 +40,9 @@ namespace tbox
 		static void *runInThread(void *);
 
 		ThreadFunc func_;
-		string name_;
+		std::string name_;
 		pthread_t pthreadId_;
-		shared_ptr<pid_t> tid_;
+		std::shared_ptr<pid_t> tid_;
 
 		bool started_;
 		bool joined_;

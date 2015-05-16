@@ -4,7 +4,7 @@
 #include <tbox/Thread.h>
 #include <tbox/Logger.h>
 
-
+using namespace std;
 using namespace tbox;
 
 void threadFunc(int param)

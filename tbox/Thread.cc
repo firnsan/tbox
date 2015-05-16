@@ -34,11 +34,11 @@ namespace tbox
 			typedef Thread::ThreadFunc ThreadFunc;
 			ThreadFunc func_;
 			string name_;
-			weak_ptr<pid_t> tid_;
+			std::weak_ptr<pid_t> tid_;
 
 			ThreadData(const ThreadFunc& func,
 				const string& name,
-				const shared_ptr<pid_t>& tid)
+				const std::shared_ptr<pid_t>& tid)
 				: func_(func),
 				  name_(name),
 				  tid_(tid)

@@ -25,6 +25,8 @@ namespace tbox
 			{
 				Thread::t_threadName = "main";
 				Thread::t_tid = gettid();
+				int n = snprintf(Thread::t_tidStr, sizeof(Thread::t_tidStr), "%5d ", Thread::t_tid);
+				assert(n==6);
 			}
 		};
 		MainThreadInitializer mainThreadInit;

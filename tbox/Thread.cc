@@ -65,6 +65,7 @@ namespace tbox
 	Thread::~Thread()
 	{
 		LOG_INFO << "Thread destructed" ;
+		// 确保线程没有被join才能detach，否则会segfault
 		if (started_ && !joined_)
 			pthread_detach(pthreadId_); //线程结束后释放资源
 	}
@@ -86,6 +87,9 @@ namespace tbox
 
 	int Thread::join()
 	{
+		assert(started_);
+		assert(!joined_);
+		joined_ = true;
 		return pthread_join(pthreadId_, NULL);
 	}
 
@@ -94,13 +98,14 @@ namespace tbox
 
 		detail::ThreadData *data = static_cast<detail::ThreadData*>(param);
 
-		LOG_INFO << data->name_ << " started";
 
 		//设置线程局部数据
 		Thread::t_tid = detail::gettid();
 		int n = snprintf(Thread::t_tidStr, sizeof(Thread::t_tidStr), "%5d ", Thread::t_tid);
 		assert(n==6);
-		Thread::t_threadName = data->name_.c_str(); 
+		Thread::t_threadName = data->name_.c_str();
+
+		LOG_INFO << data->name_ << " started";
 
 		auto ptid = data->tid_.lock();
 		if (ptid) {

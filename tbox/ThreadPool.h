@@ -19,8 +19,10 @@ namespace tbox
 		typedef std::function<void()> Task;
 
 		ThreadPool();
+		~ThreadPool();
 		void start(int numOfThreads);
 		void stop();
+		void run(const Task&);
 
 	private:
 		void runInThread();

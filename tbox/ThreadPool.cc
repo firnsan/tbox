@@ -35,4 +35,9 @@ namespace tbox
 			task();
 		}
 	}
+
+	void ThreadPool::stop()
+	{
+		running_ = false;
+	}
 }

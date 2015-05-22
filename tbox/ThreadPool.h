@@ -25,6 +25,7 @@ namespace tbox
 	private:
 		void runInThread();
 
+		// Thread对象的生命周期完全由线程池管理，所以使用unique_ptr
 		std::vector<std::unique_ptr<Thread>> threads_;
 		BlockingQueue<Task> queue_;
 		bool running_;

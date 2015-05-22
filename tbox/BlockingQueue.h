@@ -26,8 +26,9 @@ namespace tbox
 		T take()
 		{
 			MutexGuard lock(mutex_);
-			while (queue_.empty())
+			while (queue_.empty()) {
 				notEmpty_.wait();
+			}
 			T e(queue_.front());
 			queue_.pop_front();
 

@@ -4,9 +4,9 @@
 #include <assert.h>
 
 
-#include "Logger.h"
+#include <tbox/Logger.h>
 
-#include "Thread.h"
+#include <tbox/Thread.h>
 
 namespace tbox
 {

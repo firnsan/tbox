@@ -1,7 +1,7 @@
 #ifndef TBOX_LOGGER_H
 #define TBOX_LOGGER_H
 
-#include "LogStream.h"
+#include <tbox/LogStream.h>
 
 namespace tbox
 {

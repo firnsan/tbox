@@ -4,8 +4,8 @@
 #include <pthread.h>
 
 
-#include "Mutex.h"
-#include "NonCopyable.h"
+#include <tbox/Mutex.h>
+#include <tbox/NonCopyable.h>
 
 
 namespace tbox

@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "LogStream.h"
+#include <tbox/LogStream.h>
 
 namespace tbox
 {

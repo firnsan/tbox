@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <tbox/Logger.h>
-#include <tbox/TimeStamp.h>
-#include <tbox/Thread.h>
+#include <tbox/base/Logger.h>
+#include <tbox/base/TimeStamp.h>
+#include <tbox/base/Thread.h>
 
 
 

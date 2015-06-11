@@ -1,8 +1,8 @@
 #include <unistd.h>
 #include <functional>
 
-#include <tbox/Thread.h>
-#include <tbox/Logger.h>
+#include <tbox/base/Thread.h>
+#include <tbox/base/Logger.h>
 
 using namespace std;
 using namespace tbox;

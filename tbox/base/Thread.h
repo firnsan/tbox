@@ -6,7 +6,7 @@
 #include <memory>
 
 
-#include <tbox/Atomic.h>
+#include <tbox/base/Atomic.h>
 
 
 namespace tbox

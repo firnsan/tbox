@@ -6,8 +6,8 @@
 #include <functional>
 
 
-#include <tbox/Thread.h>
-#include <tbox/BlockingQueue.h>
+#include <tbox/base/Thread.h>
+#include <tbox/base/BlockingQueue.h>
 
 
 

@@ -4,8 +4,8 @@
 #include <deque>
 
 
-#include <tbox/Mutex.h>
-#include <tbox/Condition.h>
+#include <tbox/base/Mutex.h>
+#include <tbox/base/Condition.h>
 
 
 

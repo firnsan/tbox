@@ -43,4 +43,4 @@ include_directories(${PROJECT_SOURCE_DIR})
 # PROJECT_SOURCE_DIR是从cmake的命令行参数传来的: cmake ..
 
 
-add_subdirectory(tbox)
+add_subdirectory(tbox/base)

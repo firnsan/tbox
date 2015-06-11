@@ -4,9 +4,9 @@
 
 
 
-#include <tbox/BlockingQueue.h>
-#include <tbox/Thread.h>
-#include <tbox/Logger.h>
+#include <tbox/base/BlockingQueue.h>
+#include <tbox/base/Thread.h>
+#include <tbox/base/Logger.h>
 
 using std::bind;
 

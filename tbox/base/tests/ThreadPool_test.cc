@@ -5,9 +5,9 @@
 
 
 
-#include <tbox/ThreadPool.h>
-#include <tbox/Logger.h>
-#include <tbox/Condition.h>
+#include <tbox/base/ThreadPool.h>
+#include <tbox/base/Logger.h>
+#include <tbox/base/Condition.h>
 
 
 using namespace tbox;

@@ -4,8 +4,8 @@
 #include <pthread.h>
 #include <assert.h>
 
-#include <tbox/Thread.h> //TODO: extract currentThread
-#include <tbox/NonCopyable.h>
+#include <tbox/base/Thread.h> //TODO: extract currentThread
+#include <tbox/base/NonCopyable.h>
 
 
 namespace tbox

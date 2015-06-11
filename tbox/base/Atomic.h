@@ -1,5 +1,5 @@
-#ifndef TBOX_BASE_ATOMIC_H
-#define TBOX_BASE_ATOMIC_H
+#ifndef TBOX_ATOMIC_H
+#define TBOX_ATOMIC_H
 
 #include <stdint.h>
 

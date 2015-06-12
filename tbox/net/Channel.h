@@ -34,7 +34,9 @@ class Channel : NonCopyable
 		{ writeCallback_ = cb; }
 		void setErrorCallback(const EventCallback& cb)
 		{ errorCallback_ = cb; }
-
+		void setCloseCallback(const EventCallback& cb)
+		{ closeCallback_ = cb; }
+		
 		void enableReading() { events_ |= kReadMask; update(); }
 		void enableWriting() { events_ |= kWriteMask; update(); }
 // 保证handleEvent时，loop_没被析构
@@ -42,6 +44,7 @@ class Channel : NonCopyable
 
 	private:
 		void update();
+		void handleEventWithGuard(TimeStamp time);
 		
 		EventLoop *loop_;
 		int fd_;
@@ -50,6 +53,7 @@ class Channel : NonCopyable
 		ReadEventCallback readCallback_;
 		EventCallback writeCallback_;
 		EventCallback errorCallback_;
+		EventCallback closeCallback_;
 
 		const static int kReadMask;
 		const static int kWriteMask;

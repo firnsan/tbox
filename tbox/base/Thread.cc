@@ -10,7 +10,7 @@
 
 namespace tbox
 {
-	
+
 	namespace detail
 	{
 		pid_t gettid()
@@ -66,7 +66,7 @@ namespace tbox
 
 	Thread::~Thread()
 	{
-		LOG_INFO << "Thread destructed" ;
+		LOG_INFO << name_<< " destructed" ;
 		// 确保线程没有被join才能detach，否则会segfault
 		if (started_ && !joined_)
 			pthread_detach(pthreadId_); //线程结束后释放资源

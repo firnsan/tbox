@@ -48,9 +48,14 @@ namespace tbox
 		static FlushFunc flush_;
 	};
 
+#define LOG_TRACE if (tbox::Logger::logLevel() <= tbox::Logger::TRACE) \
+		tbox::Logger(__FILE__, __LINE__, tbox::Logger::TRACE).stream()
 #define LOG_INFO if (tbox::Logger::logLevel() <= tbox::Logger::INFO) \
 		tbox::Logger(__FILE__,  __LINE__).stream()
+#define LOG_WARN if (tbox::Logger::logLevel() <= tbox::Logger::WARN) \
+		tbox::Logger(__FILE__, __LINE__, tbox::Logger::WARN).stream()
 #define LOG_FATAL if (tbox::Logger::logLevel() <= tbox::Logger::FATAL) \
 		tbox::Logger(__FILE__,  __LINE__, tbox::Logger::FATAL).stream()
+
 }
 #endif

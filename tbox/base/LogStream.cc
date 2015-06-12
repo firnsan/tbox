@@ -10,7 +10,7 @@ namespace tbox
 		template class FixedBuffer<kSmallBuffer>;
 	}
 
-	
+
 	LogStream &LogStream::operator<<(const string &str)
 	{
 		return operator<<(str.c_str());
@@ -31,6 +31,14 @@ namespace tbox
 	{
 		if (buffer_.avail() >= kMaxNumericSize) {
 			int n = snprintf(buffer_.cur(), kMaxNumericSize, "%d", num);
+			buffer_.add(n);
+		}
+		return *this;
+	}
+
+	LogStream &LogStream::operator<<(void *ptr) {
+		if (buffer_.avail() >= kMaxNumericSize) {
+			int n = snprintf(buffer_.cur(), kMaxNumericSize, "%p", ptr);
 			buffer_.add(n);
 		}
 		return *this;

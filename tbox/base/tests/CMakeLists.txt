@@ -1,11 +1,11 @@
 add_executable(Logger_test Logger_test.cc)
-target_link_libraries(Logger_test tbox)
+target_link_libraries(Logger_test tbox_base)
 
 add_executable(Thread_test Thread_test.cc)
-target_link_libraries(Thread_test tbox)
+target_link_libraries(Thread_test tbox_base)
 
 add_executable(BlockingQueue_test BlockingQueue_test.cc)
-target_link_libraries(BlockingQueue_test tbox)
+target_link_libraries(BlockingQueue_test tbox_base)
 
 add_executable(ThreadPool_test ThreadPool_test.cc)
-target_link_libraries(ThreadPool_test tbox)
+target_link_libraries(ThreadPool_test tbox_base)

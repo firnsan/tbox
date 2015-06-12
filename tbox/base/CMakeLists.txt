@@ -1,4 +1,4 @@
-set (tbox_SRCS
+set (tbox_base_SRCS
   Logger.cc
   LogStream.cc
   Thread.cc
@@ -6,7 +6,7 @@ set (tbox_SRCS
   ThreadPool.cc
   )
 
-add_library(tbox ${tbox_SRCS})
-target_link_libraries(tbox pthread)
+add_library(tbox_base ${tbox_base_SRCS})
+target_link_libraries(tbox_base pthread)
 
 add_subdirectory(tests)

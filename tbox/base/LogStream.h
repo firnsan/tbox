@@ -59,6 +59,7 @@ namespace tbox
 		self& operator<<(const string &str);
 		self& operator<<(const char* str);
 		self& operator<<(int num);
+		self& operator<<(void *ptr);
 
 	private:
 		Buffer buffer_;

@@ -1,0 +1,2 @@
+add_executable(EventLoop_test EventLoop_test.cc)
+target_link_libraries(EventLoop_test tbox_base tbox_net)

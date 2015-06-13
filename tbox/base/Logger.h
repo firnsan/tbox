@@ -20,8 +20,11 @@ namespace tbox
 			NUM_LOG_LEVELS,
 		};
 
-		Logger(const char *filename, int line);
+		/* Logger(const char *filename, int line); */
 		Logger(const char *filename, int line, LogLevel level);
+		Logger(const char *filename, int line, LogLevel level, const char *func);
+		// 系统api错误
+		Logger(const char *filename, int line, bool abort);
 		~Logger();
 
 		LogStream &stream() { return stream_; }
@@ -51,11 +54,17 @@ namespace tbox
 #define LOG_TRACE if (tbox::Logger::logLevel() <= tbox::Logger::TRACE) \
 		tbox::Logger(__FILE__, __LINE__, tbox::Logger::TRACE).stream()
 #define LOG_INFO if (tbox::Logger::logLevel() <= tbox::Logger::INFO) \
-		tbox::Logger(__FILE__,  __LINE__).stream()
+		tbox::Logger(__FILE__,  __LINE__, tbox::Logger::INFO).stream()
 #define LOG_WARN if (tbox::Logger::logLevel() <= tbox::Logger::WARN) \
 		tbox::Logger(__FILE__, __LINE__, tbox::Logger::WARN).stream()
+#define LOG_ERROR if (tbox::Logger::logLevel() <= tbox::Logger::WARN) \
+		tbox::Logger(__FILE__, __LINE__, tbox::Logger::ERROR).stream()
 #define LOG_FATAL if (tbox::Logger::logLevel() <= tbox::Logger::FATAL) \
 		tbox::Logger(__FILE__,  __LINE__, tbox::Logger::FATAL).stream()
+
+	// 当系统的API发生错误时，调用下面两个函数，输出errno对应的错误
+#define LOG_SYSERR tbox::Logger(__FILE__, __LINE__, false).stream()
+#define LOG_SYSFATAL tbox::Logger(__FILE__, __LINE__, true).stream()
 
 }
 #endif

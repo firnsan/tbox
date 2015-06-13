@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
+
 
 #include <tbox/base/Logger.h>
 #include <tbox/base/TimeStamp.h>
@@ -44,20 +46,20 @@ namespace tbox
 	Logger::OutputFunc Logger::output_ = defaultOutput;
 	Logger::FlushFunc Logger::flush_ = defaultFlush;
 
-	Logger::Logger(const char *filename, int line)
-		: stream_(),
-		  basename_(filename),
-		  line_(line),
-		  level_(INFO)
-	{
-		//new(this) Logger(...);
-		const char *slash = strrchr(filename, '/');
-		if (slash) {
-			basename_ = slash + 1;
-		}
+	// Logger::Logger(const char *filename, int line)
+	// 	: stream_(),
+	// 	  basename_(filename),
+	// 	  line_(line),
+	// 	  level_(INFO)
+	// {
+	// 	//new(this) Logger(...);
+	// 	const char *slash = strrchr(filename, '/');
+	// 	if (slash) {
+	// 		basename_ = slash + 1;
+	// 	}
 
-		extraInfo();
-	}
+	// 	extraInfo();
+	// }
 
 
 	Logger::Logger(const char *filename, int line, LogLevel level)
@@ -72,6 +74,22 @@ namespace tbox
 		}
 
 		extraInfo();
+	}
+
+	Logger::Logger(const char *filename, int line, bool abort)
+		: stream_(),
+		  basename_(filename),
+		  line_(line),
+		  level_(abort?FATAL:ERROR)
+	{
+		const char *slash = strrchr(filename, '/');
+		if (slash) {
+			basename_ = slash + 1;
+		}
+
+		extraInfo();
+
+		stream_ << strerror(errno) << " (errno= " << errno << ")";
 	}
 
 	Logger::~Logger()

@@ -1,12 +1,13 @@
 #ifndef TBOX_POLLPOLLER_H
 #define TBOX_POLLPOLLER_H
 
-#include <poll.h>
 #include <vector>
 #include <map>
 
 
 #include <tbox/net/Poller.h>
+
+struct pollfd;
 
 namespace tbox
 {

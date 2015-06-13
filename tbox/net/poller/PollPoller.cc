@@ -20,40 +20,34 @@ PollPoller::~PollPoller()
 
 TimeStamp PollPoller::poll(int timeoutMs, ChannelList* activeChannels)
 {
-	// XXX pollfds_ shouldn't change
 	int numEvents = ::poll(&*pollfds_.begin(), pollfds_.size(), timeoutMs);
-	int savedErrno = errno;
 	TimeStamp now(TimeStamp::now());
+
 	if (numEvents > 0) {
-	    LOG_TRACE << numEvents << " events happended";
-	    fillActiveChannels(numEvents, activeChannels);
+		fillActiveChannels(numEvents, activeChannels);
+	} else if (numEvents == 0) {
+		LOG_TRACE << " Poller::Poll(): nothing happended";
+	} else {
+		LOG_SYSERR << "Poller::poll()";
 	}
-	else if (numEvents == 0) {
-	    LOG_TRACE << " nothing happended";
-	}
-	else {
-	    if (savedErrno != EINTR) {
-			errno = savedErrno;
-			LOG_WARN << "PollPoller::poll()";
-		}
-	}
-	return now;
+
+	return  now;
+
 }
 
 
 void PollPoller::fillActiveChannels(int numEvents,
 	ChannelList* activeChannels) const
 {
-	for (PollFdList::const_iterator pfd = pollfds_.begin();
-		 pfd != pollfds_.end() && numEvents > 0; ++pfd) {
-	    if (pfd->revents > 0) {
-			--numEvents;
-			ChannelMap::const_iterator ch = channels_.find(pfd->fd);
+	for (PollFdList::const_iterator pollfd = pollfds_.begin();
+		 pollfd != pollfds_.end(); pollfd++) {
+		if (pollfd->revents > 0) {
+			ChannelMap::const_iterator ch = channels_.find(pollfd->fd);
 			assert(ch != channels_.end());
-			Channel* channel = ch->second;
-			assert(channel->fd() == pfd->fd);
-			channel->setRevents(pfd->revents);
-			// pfd->revents = 0;
+			Channel *channel = ch->second;
+			assert(channel->fd() == pollfd->fd);
+			channel->setRevents(pollfd->revents);
+
 			activeChannels->push_back(channel);
 		}
 	}

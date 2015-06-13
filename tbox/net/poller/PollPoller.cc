@@ -52,7 +52,7 @@ void PollPoller::fillActiveChannels(int numEvents,
 			assert(ch != channels_.end());
 			Channel* channel = ch->second;
 			assert(channel->fd() == pfd->fd);
-			channel->set_revents(pfd->revents);
+			channel->setRevents(pfd->revents);
 			// pfd->revents = 0;
 			activeChannels->push_back(channel);
 		}
@@ -74,7 +74,7 @@ void PollPoller::updateChannel(Channel* channel)
 	    pfd.revents = 0;
 	    pollfds_.push_back(pfd);
 	    int idx = static_cast<int>(pollfds_.size())-1;
-	    channel->set_index(idx);
+	    channel->setIndex(idx);
 	    channels_[pfd.fd] = channel;
 	} else {
 	    // update existing one
@@ -106,7 +106,7 @@ void PollPoller::removeChannel(Channel* channel)
 	assert(pfd.fd == -channel->fd()-1 && pfd.events == channel->events());
 	size_t n = channels_.erase(channel->fd());
 	assert(n == 1); (void)n;
-	if (implicit_cast<size_t>(idx) == pollfds_.size()-1) {
+	if (static_cast<size_t>(idx) == pollfds_.size()-1) {
 	    pollfds_.pop_back();
 	} else {
 	    int channelAtEnd = pollfds_.back().fd;
@@ -114,7 +114,7 @@ void PollPoller::removeChannel(Channel* channel)
 	    if (channelAtEnd < 0) {
 			channelAtEnd = -channelAtEnd-1;
 		}
-	    channels_[channelAtEnd]->set_index(idx);
+	    channels_[channelAtEnd]->setIndex(idx);
 	    pollfds_.pop_back();
 	}
 }

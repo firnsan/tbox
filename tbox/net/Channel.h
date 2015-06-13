@@ -39,13 +39,20 @@ class Channel : NonCopyable
 		
 		void enableReading() { events_ |= kReadMask; update(); }
 		void enableWriting() { events_ |= kWriteMask; update(); }
-// 保证handleEvent时，loop_没被析构
+		// 保证handleEvent时，loop_没被析构
 		void tie(std::shared_ptr<EventLoop>);
+
+		int events() const { return events_; }
+		void setRevents(int revt) { revents_ = revt; } // used by Poller
+		int index();
+		void setIndex(int idx) { index_ = idx; }
+
+		bool isNoneEvent() { return events_ == kNoneMask; }
 
 	private:
 		void update();
 		void handleEventWithGuard(TimeStamp time);
-		
+
 		EventLoop *loop_;
 		int fd_;
 
@@ -64,6 +71,8 @@ class Channel : NonCopyable
 
 		std::weak_ptr<EventLoop> tie_;
 		bool tied_;
+
+		int index_;
 	};
 }
 

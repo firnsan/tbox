@@ -1,7 +1,9 @@
 #include <poll.h>
 
-#include <tbox/net/Channel.h>
 #include <tbox/base/Logger.h>
+#include <tbox/net/Channel.h>
+#include <tbox/net/EventLoop.h>
+
 
 
 using namespace std;
@@ -33,6 +35,11 @@ void Channel::handleEvent(TimeStamp time)
 	}
 }
 
+void Channel::update()
+{
+	loop_->updateChannel(this);
+}
+
 void Channel::handleEventWithGuard(TimeStamp time)
 {
 	if ((revents_ & POLLHUP) && !(revents_ & POLLIN)) {
@@ -54,3 +61,4 @@ void Channel::handleEventWithGuard(TimeStamp time)
 			writeCallback_();
 	}
 }
+

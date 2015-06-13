@@ -9,12 +9,12 @@
 #include <tbox/base/TimeStamp.h>
 
 
-
-class EventLoop;
-
-namespace tbox 
+namespace tbox
 {
-class Channel : NonCopyable
+
+	class EventLoop;
+
+	class Channel : NonCopyable
 	{
 	public:
 		typedef std::function<void()> EventCallback;
@@ -27,7 +27,7 @@ class Channel : NonCopyable
 		int fd() const { return fd_; }
 
 		void handleEvent(TimeStamp);
-		
+
 		void setReadCallback(const ReadEventCallback& cb)
 		{ readCallback_ = cb; }
 		void setWriteCallback(const EventCallback& cb)
@@ -36,7 +36,7 @@ class Channel : NonCopyable
 		{ errorCallback_ = cb; }
 		void setCloseCallback(const EventCallback& cb)
 		{ closeCallback_ = cb; }
-		
+
 		void enableReading() { events_ |= kReadMask; update(); }
 		void enableWriting() { events_ |= kWriteMask; update(); }
 		// 保证handleEvent时，loop_没被析构
@@ -44,7 +44,7 @@ class Channel : NonCopyable
 
 		int events() const { return events_; }
 		void setRevents(int revt) { revents_ = revt; } // used by Poller
-		int index();
+		int index() { return index_; }
 		void setIndex(int idx) { index_ = idx; }
 
 		bool isNoneEvent() { return events_ == kNoneMask; }

@@ -46,6 +46,7 @@ void EventLoop::loop()
 	assert(!looping_);
 	assertInLoopThread();
 
+	quit_ = false;
 	looping_ = true;
 	while (!quit_) {
 		activeChannels_.clear();
@@ -60,6 +61,12 @@ void EventLoop::loop()
 	}
 	LOG_TRACE << "EventLoop " << this << "stop looping";
 	looping_ = false;
+}
+
+void EventLoop::quit()
+{
+	quit_ = true;
+	//TODO:wakeup if in anothoer thread
 }
 
 void EventLoop::updateChannel(Channel *channel)

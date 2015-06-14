@@ -72,7 +72,7 @@ namespace tbox
 		std::weak_ptr<EventLoop> tie_;
 		bool tied_;
 
-		int index_;
+		int index_; //在eventloop::pollfds_数组中的索引
 	};
 }
 

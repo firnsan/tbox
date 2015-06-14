@@ -21,6 +21,7 @@ namespace tbox
 		~EventLoop();
 
 		void loop();
+		void quit();
 
 		void assertInLoopThread()
 		{
